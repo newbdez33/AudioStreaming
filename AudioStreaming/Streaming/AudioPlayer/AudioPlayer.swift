@@ -272,9 +272,10 @@ public final class AudioPlayer {
         startReadProcessFromSourceIfNeeded()
     }
 
-    public func seek(to time: Double) {
+    //return false if entry is not ready.
+    public func seek(to time: Double) -> Bool {
         guard let playingEntry = playerContext.audioPlayingEntry else {
-            return
+            return false
         }
         playingEntry.seekRequest.lock.lock()
         let alreadyRequestedToSeek = playingEntry.seekRequest.requested
@@ -292,6 +293,7 @@ public final class AudioPlayer {
                 self?.processSource()
             }
         }
+        return true
     }
 
     public func attach(node: AVAudioNode) {
