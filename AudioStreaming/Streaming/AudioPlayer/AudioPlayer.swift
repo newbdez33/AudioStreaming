@@ -322,6 +322,10 @@ public final class AudioPlayer {
         }
         attachAndConnectDefaultNodes()
     }
+    
+    public func tempGetAudioEngine() -> AVAudioEngine {
+        return self.audioEngine
+    }
 
     // MARK: Private
 
