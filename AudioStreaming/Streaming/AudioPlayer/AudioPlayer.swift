@@ -524,7 +524,7 @@ public final class AudioPlayer {
         if playerContext.internalState == .pendingNext {
             let entry = entriesQueue.dequeue(type: .upcoming)
             playerContext.setInternalState(to: .waitingForData)
-            setCurrentReading(entry: entry, startPlaying: true, shouldClearQueue: true)
+            setCurrentReading(entry: entry, startPlaying: true, shouldClearQueue: false)
             rendererContext.resetBuffers()
         } else if let playingEntry = playerContext.audioPlayingEntry,
             playingEntry.seekRequest.requested,
@@ -538,7 +538,7 @@ public final class AudioPlayer {
             }
             if configuration.flushQueueOnSeek {
                 playerContext.setInternalState(to: .waitingForDataAfterSeek)
-                setCurrentReading(entry: playingEntry, startPlaying: true, shouldClearQueue: true)
+                setCurrentReading(entry: playingEntry, startPlaying: true, shouldClearQueue: false)
             } else {
                 entriesQueue.requeueBufferingEntries { audioEntry in
                     audioEntry.reset()
@@ -552,7 +552,7 @@ public final class AudioPlayer {
                 let entry = entriesQueue.dequeue(type: .upcoming)
                 let shouldStartPlaying = playerContext.audioPlayingEntry == nil
                 playerContext.setInternalState(to: .waitingForData)
-                setCurrentReading(entry: entry, startPlaying: shouldStartPlaying, shouldClearQueue: true)
+                setCurrentReading(entry: entry, startPlaying: shouldStartPlaying, shouldClearQueue: false)
             } else if playerContext.audioPlayingEntry == nil {
                 if playerContext.internalState != .stopped {
                     stopReadProccessFromSource()
